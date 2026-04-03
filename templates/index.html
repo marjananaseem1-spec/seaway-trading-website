@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seaway Hardware &amp; Services | Building Materials, Electricals &amp; More — Doha, Qatar</title>
+  <meta name="description" content="Seaway Trading and Contracting Co. W.L.L. — hardware, building materials, electricals, safety items, office stationery, and cleaning supplies in Doha, Qatar. Commercial Registration 63997." />
+  <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="#top" class="logo">
+        <img class="logo__img" src="{% static 'images/logo.png' %}" alt="Seaway Hardware and Services" width="120" height="52" decoding="async" />
+        <span class="logo__wordmark">
+          <span class="logo__line1">Seaway Hardware</span>
+          <span class="logo__line2">&amp; Services</span>
+        </span>
+      </a>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Products</a></li>
+        <li><a href="#why-us">Why Us</a></li>
+        <li><a href="{% static 'docs/seaway-product-catalog.pdf' %}" target="_blank" rel="noopener">Catalog (PDF)</a></li>
+        <li><a href="#contact" class="nav-cta">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <p class="eyebrow hero__eyebrow">Seaway Trading &amp; Contracting Co. W.L.L.</p>
+        <h1 class="hero__title">Hardware, building materials &amp; workplace essentials</h1>
+        <p class="hero__subtitle">Your partner in Doha for quality materials, electricals, safety gear, office supplies, and cleaning products—backed by responsive sales support for contractors, fit-out teams, and businesses across Qatar.</p>
+        <div class="hero__actions">
+          <a href="#contact" class="btn btn--primary">Request a quote</a>
+          <a href="#about" class="btn btn--ghost">About us</a>
+        </div>
+        <p class="hero__catalog">
+          <a href="{% static 'docs/seaway-product-catalog.pdf' %}" class="hero__catalog-link" target="_blank" rel="noopener">Download product catalog (PDF)</a>
+          <span aria-hidden="true"> · </span>
+          Same ranges as our printed brochure
+        </p>
+      </div>
+      <div class="hero__scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <span class="hero__scroll-line"></span>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="container about__grid">
+        <div class="about__content">
+          <p class="eyebrow">About us</p>
+          <h2 class="section-title">Trusted supply for construction, facilities &amp; offices</h2>
+          <p class="about__lead"><strong>Seaway Trading and Contracting Co. W.L.L.</strong> operates from Doha, State of Qatar, supplying hardware, building materials, electrical items, safety products, office stationery, and cleaning materials. We support projects and operations that need reliable stock, clear specifications, and dependable delivery.</p>
+          <p>Our product catalog reflects the breadth of lines we carry—aligned with the brochure we share with clients on site and in the office. Whether you are sourcing for a new build, a renovation, or everyday facility needs, our team is ready to help you match products to your standards and schedule.</p>
+          <div class="trust-strip">
+            <div class="trust-strip__item">
+              <strong>CR 63997</strong>
+              <span>Commercial registration</span>
+            </div>
+            <div class="trust-strip__item">
+              <strong>P.O. Box 6150</strong>
+              <span>Doha, State of Qatar</span>
+            </div>
+            <div class="trust-strip__item">
+              <strong>Project &amp; retail</strong>
+              <span>Materials, electricals &amp; workplace</span>
+            </div>
+          </div>
+        </div>
+        <figure class="about__media">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Construction and building materials on site" width="800" height="1000" loading="lazy" />
+          <div class="about__media-accent" aria-hidden="true"></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section--alt services" id="services">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Product ranges</p>
+          <h2 class="section-title">What we supply</h2>
+          <p class="section-desc">Categories follow our company product brochure. For SKU-level detail, specifications, and availability, use the catalog or contact our sales team.</p>
+          <p class="catalog-cta"><a href="{% static 'docs/seaway-product-catalog.pdf' %}" target="_blank" rel="noopener">Open full catalog (PDF)</a></p>
+        </header>
+        <div class="cards cards--services">
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 36V12h12v24H8zm20 0V20h12v16H28zM14 18h4M14 24h4M14 30h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="card__title">Doors &amp; building materials</h3>
+            <p class="card__text">Structural and finish materials for construction and fit-out, including door-related solutions featured in our brochure.</p>
+          </article>
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="10" width="32" height="28" rx="2" stroke="currentColor" stroke-width="2"/><path d="M16 18h16M16 26h10M20 34h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="card__title">Building materials &amp; electricals</h3>
+            <p class="card__text">Core building lines plus electrical components for safe, code-conscious installations on commercial and residential work.</p>
+          </article>
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 8L8 20v20h32V20L24 8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M18 28l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="card__title">Safety items</h3>
+            <p class="card__text">PPE and site-safety essentials to help teams work responsibly on site and in industrial environments.</p>
+          </article>
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="8" width="28" height="32" rx="2" stroke="currentColor" stroke-width="2"/><path d="M16 16h16v4H16zm0 8h10v4H16zm0 8h14v4H16z" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3 class="card__title">Office stationery</h3>
+            <p class="card__text">Stationery and office consumables to keep workplaces organised and running day to day.</p>
+          </article>
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 40c0-8 4-14 10-14s10 6 10 14" stroke="currentColor" stroke-width="2"/><path d="M24 8v14M18 18l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="card__title">Cleaning materials</h3>
+            <p class="card__text">Janitorial and cleaning products for facilities, retail, and commercial maintenance programmes.</p>
+          </article>
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 40V18l16-10 16 10v22" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M18 40V26h12v14" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="card__title">Contracting &amp; bulk supply</h3>
+            <p class="card__text">Coordinated supply for contractors and companies—quotations, scheduling, and repeat orders handled by our sales desk.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section why-us" id="why-us">
+      <div class="container">
+        <header class="section-head section-head--center">
+          <p class="eyebrow">Why choose us</p>
+          <h2 class="section-title">Built for Qatar’s projects &amp; facilities</h2>
+        </header>
+        <div class="why-grid">
+          <div class="why-item">
+            <span class="why-item__num">01</span>
+            <h3>Brochure-backed range</h3>
+            <p>Product families in our PDF catalog match what we promote to clients—so what you see is what we can help you source.</p>
+          </div>
+          <div class="why-item">
+            <span class="why-item__num">02</span>
+            <h3>Local, accountable team</h3>
+            <p>Registered in Doha (CR 63997) with direct mobile lines for sales—fast answers when you are on site or closing a BOQ.</p>
+          </div>
+          <div class="why-item">
+            <span class="why-item__num">03</span>
+            <h3>Multi-category convenience</h3>
+            <p>From electricals and safety to stationery and cleaning, reduce vendor fragmentation on recurring procurement.</p>
+          </div>
+          <div class="why-item">
+            <span class="why-item__num">04</span>
+            <h3>Contracting mindset</h3>
+            <p>We understand timelines and specifications on construction and fit-out work—not just single-item retail.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark testimonials" id="testimonials">
+      <div class="container">
+        <header class="section-head section-head--center">
+          <p class="eyebrow eyebrow--on-dark">Client stories</p>
+          <h2 class="section-title section-title--on-dark">What our partners say</h2>
+        </header>
+        <div class="testimonial-slider" data-slider>
+          <div class="testimonial-track" data-track>
+            <blockquote class="testimonial-slide is-active" data-slide>
+              <p class="testimonial__quote">“Seaway consolidated several BOQ lines for our Doha fit-out—electricals, safety, and cleaning. Communication on WhatsApp and phone was straightforward.”</p>
+              <footer>
+                <cite class="testimonial__author">Site supervisor</cite>
+                <span class="testimonial__role">Commercial interior project, Qatar</span>
+              </footer>
+            </blockquote>
+            <blockquote class="testimonial-slide" data-slide>
+              <p class="testimonial__quote">“We order stationery and janitorial supplies on a monthly rhythm. Having one supplier who also handles hardware questions saves our admin team time.”</p>
+              <footer>
+                <cite class="testimonial__author">Operations manager</cite>
+                <span class="testimonial__role">Facilities &amp; retail, Doha</span>
+              </footer>
+            </blockquote>
+            <blockquote class="testimonial-slide" data-slide>
+              <p class="testimonial__quote">“Their catalog helped our engineers mark up alternatives before tender. Sales followed up with stock and lead times quickly.”</p>
+              <footer>
+                <cite class="testimonial__author">Procurement lead</cite>
+                <span class="testimonial__role">Contracting company, Qatar</span>
+              </footer>
+            </blockquote>
+          </div>
+          <div class="testimonial-controls">
+            <button type="button" class="slider-btn" data-prev aria-label="Previous testimonial">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="slider-dots" data-dots aria-hidden="true"></div>
+            <button type="button" class="slider-btn" data-next aria-label="Next testimonial">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="container contact__grid">
+        <div class="contact__intro">
+          <p class="eyebrow">Get in touch</p>
+          <h2 class="section-title">Sales &amp; quotations</h2>
+          <p>Call or email with your material lists, BOQ excerpts, or facility needs. We will respond with availability, alternatives where needed, and next steps.</p>
+          <ul class="contact__details">
+            <li><a href="tel:+97470741235">+974 7074 1235</a></li>
+            <li><a href="tel:+97466607627">+974 6660 7627</a></li>
+            <li><a href="mailto:sales@seawaytradingqatar.com">sales@seawaytradingqatar.com</a></li>
+            <li>P.O. Box 6150, Doha, State of Qatar</li>
+            <li>Commercial Registration: 63997</li>
+          </ul>
+          <p class="catalog-cta"><a href="{% static 'docs/seaway-product-catalog.pdf' %}" target="_blank" rel="noopener">Product catalog (PDF)</a></p>
+        </div>
+        <form class="contact-form" id="contact-form" novalidate data-contact-url="{% url 'pages:contact' %}">
+          {% csrf_token %}
+          <label class="field">
+            <span class="field__label">Name</span>
+            <input type="text" name="name" required autocomplete="name" placeholder="Your name" />
+          </label>
+          <label class="field">
+            <span class="field__label">Email</span>
+            <input type="email" name="email" required autocomplete="email" placeholder="you@company.com" />
+          </label>
+          <label class="field field--full">
+            <span class="field__label">Message</span>
+            <textarea name="message" rows="5" required placeholder="Products, quantities, project location, or questions…"></textarea>
+          </label>
+          <button type="submit" class="btn btn--primary btn--full">Send message</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <a href="#top" class="logo logo--footer">
+          <img class="logo__img" src="{% static 'images/logo.png' %}" alt="" width="120" height="52" decoding="async" />
+          <span class="logo__wordmark">
+            <span class="logo__line1">Seaway Hardware</span>
+            <span class="logo__line2">&amp; Services</span>
+          </span>
+        </a>
+        <p><strong>Seaway Trading and Contracting Co. W.L.L.</strong> — hardware, building materials, electricals, safety, office stationery, and cleaning supplies in Doha, Qatar.</p>
+        <div class="social">
+          <a href="mailto:sales@seawaytradingqatar.com" class="social__link" aria-label="Email sales"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg></a>
+          <a href="tel:+97470741235" class="social__link" aria-label="Call +974 7074 1235"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.44 12.44 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.44 12.44 0 002.81.7A2 2 0 0122 16.92z"/></svg></a>
+          <a href="{% static 'docs/seaway-product-catalog.pdf' %}" class="social__link" aria-label="Product catalog PDF" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h3 class="footer__title">Quick links</h3>
+        <ul class="footer__links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Products</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer__title">Product categories</h3>
+        <ul class="footer__links">
+          <li><a href="#services">Doors &amp; building materials</a></li>
+          <li><a href="#services">Electricals</a></li>
+          <li><a href="#services">Safety &amp; stationery</a></li>
+          <li><a href="{% static 'docs/seaway-product-catalog.pdf' %}" target="_blank" rel="noopener">Full catalog (PDF)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container footer__bottom-inner">
+        <p>&copy; <span id="year"></span> Seaway Trading and Contracting Co. W.L.L. All rights reserved. · Doha, Qatar · CR 63997</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -12,17 +12,30 @@ SECRET_KEY = os.environ.get(
     "django-insecure-dev-only-change-for-production",
 )
 
-DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in ("1", "true", "yes")
+# On Render, RENDER is set — default DEBUG off so ALLOWED_HOSTS is not localhost-only.
+_on_render = os.environ.get("RENDER", "").lower() == "true"
+_default_debug = "false" if _on_render else "true"
+DEBUG = os.environ.get("DJANGO_DEBUG", _default_debug).lower() in ("1", "true", "yes")
+
+_render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME", "").strip()
 
 if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost", "testserver"]
+    if _render_hostname:
+        ALLOWED_HOSTS = [*ALLOWED_HOSTS, _render_hostname]
 else:
     _hosts = [h.strip() for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if h.strip()]
-    # Default covers *.onrender.com when you forget to set the env (Render free tier)
     ALLOWED_HOSTS = _hosts if _hosts else [".onrender.com"]
+    if _render_hostname and _render_hostname not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS = [*ALLOWED_HOSTS, _render_hostname]
 
 _csrf = [x.strip() for x in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",") if x.strip()]
-CSRF_TRUSTED_ORIGINS = _csrf
+if _csrf:
+    CSRF_TRUSTED_ORIGINS = _csrf
+elif _render_hostname:
+    CSRF_TRUSTED_ORIGINS = [f"https://{_render_hostname}"]
+else:
+    CSRF_TRUSTED_ORIGINS = []
 
 INSTALLED_APPS = [
     "django.contrib.admin",

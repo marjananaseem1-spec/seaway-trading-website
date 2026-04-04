@@ -105,6 +105,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Contact form emails go here
 CONTACT_FORM_TO = "sales@seawaytradingqatar.com"
 
+# Optional: SendGrid API (recommended on Render — free tier). Set in environment:
+# SENDGRID_API_KEY, and verify a sender in SendGrid (Sender Authentication).
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "").strip()
+SENDGRID_FROM_EMAIL = os.environ.get(
+    "SENDGRID_FROM_EMAIL",
+    os.environ.get("DEFAULT_FROM_EMAIL", "") or f"noreply@{CONTACT_FORM_TO.split('@')[-1]}",
+).strip()
+
 # Email: set EMAIL_HOST (and user/password) in production for real SMTP.
 # Without EMAIL_HOST, Django prints mail to the console (good for local testing).
 if os.environ.get("EMAIL_HOST"):
@@ -116,6 +124,9 @@ if os.environ.get("EMAIL_HOST"):
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Django’s default EMAIL_HOST is "localhost" — do not treat that as “configured”.
+SMTP_ENABLED = bool(os.environ.get("EMAIL_HOST", "").strip())
 
 # "From" address — must be allowed by your SMTP provider (often same as EMAIL_HOST_USER)
 DEFAULT_FROM_EMAIL = os.environ.get(

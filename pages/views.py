@@ -1,8 +1,11 @@
 import json
 import logging
 import re
+import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional, Tuple
 
 from django.conf import settings
 from django.core.mail import EmailMessage
@@ -20,6 +23,74 @@ _LOG_FILE = _LOG_DIR / "contact_submissions.log"
 
 def _valid_email(addr: str) -> bool:
     return bool(re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", addr))
+
+
+def _send_via_sendgrid(
+    from_email: str,
+    to_email: str,
+    reply_to: str,
+    subject: str,
+    body: str,
+) -> Tuple[bool, Optional[str]]:
+    key = getattr(settings, "SENDGRID_API_KEY", "") or ""
+    if not key:
+        return False, "missing_api_key"
+    payload = {
+        "personalizations": [{"to": [{"email": to_email}]}],
+        "from": {"email": from_email},
+        "reply_to": {"email": reply_to},
+        "subject": subject,
+        "content": [{"type": "text/plain", "value": body}],
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.sendgrid.com/v3/mail/send",
+        data=data,
+        headers={
+            "Authorization": f"Bearer {key}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        urllib.request.urlopen(req, timeout=30)
+        return True, None
+    except urllib.error.HTTPError as exc:
+        err = exc.read().decode(errors="replace") if exc.fp else str(exc)
+        logger.error("SendGrid HTTP %s: %s", exc.code, err)
+        return False, err
+    except OSError as exc:
+        logger.exception("SendGrid request failed")
+        return False, str(exc)
+
+
+def _send_contact_delivery(
+    to_email: str,
+    subject: str,
+    body: str,
+    customer_email: str,
+) -> Tuple[bool, Optional[str]]:
+    """Send to sales inbox: SendGrid API, else SMTP if configured."""
+    if getattr(settings, "SENDGRID_API_KEY", ""):
+        from_addr = getattr(settings, "SENDGRID_FROM_EMAIL", None) or settings.DEFAULT_FROM_EMAIL
+        return _send_via_sendgrid(from_addr, to_email, customer_email, subject, body)
+
+    if getattr(settings, "SMTP_ENABLED", False):
+        msg = EmailMessage(
+            subject=subject,
+            body=body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[to_email],
+            reply_to=[customer_email],
+        )
+        try:
+            msg.send(fail_silently=False)
+            return True, None
+        except Exception:
+            logger.exception("SMTP send failed")
+            return False, "smtp_error"
+
+    return False, "not_configured"
 
 
 @ensure_csrf_cookie
@@ -72,21 +143,27 @@ def contact(request):
         f"---\nReply directly to this customer using the email above.\n"
     )
 
-    try:
-        msg = EmailMessage(
-            subject=subject,
-            body=body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=[to_email],
-            reply_to=[email],
-        )
-        msg.send(fail_silently=False)
-    except Exception:
-        logger.exception("Contact form: failed to send email to %s", to_email)
+    ok, err = _send_contact_delivery(to_email, subject, body, email)
+    if not ok:
+        if err == "not_configured":
+            logger.error(
+                "Contact form: no email provider (set SENDGRID_API_KEY or EMAIL_HOST on the server)"
+            )
+            return JsonResponse(
+                {
+                    "ok": False,
+                    "error": (
+                        "Message saved, but email is not configured on the server yet. "
+                        "Please email sales@seawaytradingqatar.com or call us directly."
+                    ),
+                },
+                status=503,
+            )
+        logger.exception("Contact form: failed to send email to %s (%s)", to_email, err)
         return JsonResponse(
             {
                 "ok": False,
-                "error": "We could not send your message. Please email us directly at sales@seawaytradingqatar.com or call the numbers on the site.",
+                "error": "We could not send your message. Please email sales@seawaytradingqatar.com or call the numbers on the site.",
             },
             status=500,
         )

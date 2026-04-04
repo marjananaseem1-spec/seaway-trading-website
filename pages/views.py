@@ -153,8 +153,9 @@ def contact(request):
                 {
                     "ok": False,
                     "error": (
-                        "Message saved, but email is not configured on the server yet. "
-                        "Please email sales@seawaytradingqatar.com or call us directly."
+                        "We could not send your message by email from this form yet. "
+                        "Please write to sales@seawaytradingqatar.com or call the numbers "
+                        "in the Contact section — we will help you from there."
                     ),
                 },
                 status=503,

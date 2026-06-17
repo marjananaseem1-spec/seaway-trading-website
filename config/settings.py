@@ -2,6 +2,8 @@
 Django settings for Seaway Trading marketing site.
 """
 
+from __future__ import annotations
+
 import os
 from pathlib import Path
 
@@ -19,23 +21,49 @@ DEBUG = os.environ.get("DJANGO_DEBUG", _default_debug).lower() in ("1", "true", 
 
 _render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME", "").strip()
 
+# Public website domain (custom domain). Email may use a different host (e.g. seawaytradingqatar.com).
+SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "seaway-tradingqatar.com").strip().lower().removeprefix("www.")
+SITE_WWW_URL = f"https://www.{SITE_DOMAIN}" if SITE_DOMAIN else ""
+
+
+def _hosts_for_site_domain(domain: str) -> list[str]:
+    if not domain:
+        return []
+    return [domain, f"www.{domain}"]
+
+
+def _merge_hosts(*groups: list[str]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for group in groups:
+        for host in group:
+            if host and host not in seen:
+                seen.add(host)
+                out.append(host)
+    return out
+
+
 if DEBUG:
     ALLOWED_HOSTS = ["127.0.0.1", "localhost", "testserver"]
     if _render_hostname:
-        ALLOWED_HOSTS = [*ALLOWED_HOSTS, _render_hostname]
+        ALLOWED_HOSTS = _merge_hosts(ALLOWED_HOSTS, [_render_hostname])
 else:
-    _hosts = [h.strip() for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if h.strip()]
-    ALLOWED_HOSTS = _hosts if _hosts else [".onrender.com"]
-    if _render_hostname and _render_hostname not in ALLOWED_HOSTS:
-        ALLOWED_HOSTS = [*ALLOWED_HOSTS, _render_hostname]
+    _env_hosts = [h.strip() for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if h.strip()]
+    ALLOWED_HOSTS = _merge_hosts(
+        _env_hosts,
+        _hosts_for_site_domain(SITE_DOMAIN),
+        [".onrender.com"],
+        [_render_hostname] if _render_hostname else [],
+    )
 
 _csrf = [x.strip() for x in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",") if x.strip()]
 if _csrf:
     CSRF_TRUSTED_ORIGINS = _csrf
-elif _render_hostname:
-    CSRF_TRUSTED_ORIGINS = [f"https://{_render_hostname}"]
 else:
-    CSRF_TRUSTED_ORIGINS = []
+    _csrf_origins = [f"https://{h}" for h in _hosts_for_site_domain(SITE_DOMAIN)]
+    if _render_hostname:
+        _csrf_origins.append(f"https://{_render_hostname}")
+    CSRF_TRUSTED_ORIGINS = _csrf_origins
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -70,6 +98,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "pages.context_processors.site",
             ],
         },
     },

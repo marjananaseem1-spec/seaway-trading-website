@@ -22,7 +22,14 @@ DEBUG = os.environ.get("DJANGO_DEBUG", _default_debug).lower() in ("1", "true", 
 _render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME", "").strip()
 
 # Public website domain (custom domain). Email may use a different host (e.g. seawaytradingqatar.com).
-SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "seaway-tradingqatar.com").strip().lower().removeprefix("www.")
+SITE_DOMAIN = os.environ.get(
+    "SITE_DOMAIN",
+    "seaway-tradingqatar.com"
+).strip().lower()
+
+if SITE_DOMAIN.startswith("www."):
+    SITE_DOMAIN = SITE_DOMAIN[4:]
+    
 SITE_WWW_URL = f"https://www.{SITE_DOMAIN}" if SITE_DOMAIN else ""
 
 
@@ -136,30 +143,30 @@ CONTACT_FORM_TO = "sales@seawaytradingqatar.com"
 
 # Optional: SendGrid API (recommended on Render — free tier). Set in environment:
 # SENDGRID_API_KEY, and verify a sender in SendGrid (Sender Authentication).
+
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "").strip()
+
 SENDGRID_FROM_EMAIL = os.environ.get(
     "SENDGRID_FROM_EMAIL",
-    os.environ.get("DEFAULT_FROM_EMAIL", "") or f"noreply@{CONTACT_FORM_TO.split('@')[-1]}",
+    os.environ.get(
+        "DEFAULT_FROM_EMAIL",
+        f"noreply@{CONTACT_FORM_TO.split('@')[-1]}"
+    ),
 ).strip()
 
-# Email: set EMAIL_HOST (and user/password) in production for real SMTP.
-# Without EMAIL_HOST, Django prints mail to the console (good for local testing).
-if os.environ.get("EMAIL_HOST"):
+# Configure SendGrid SMTP
+if SENDGRID_API_KEY:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = os.environ["EMAIL_HOST"]
-    EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
-    EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "true").lower() in ("1", "true", "yes")
-    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
-    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+    EMAIL_HOST = "smtp.sendgrid.net"
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = "apikey"
+    EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+    DEFAULT_FROM_EMAIL = SENDGRID_FROM_EMAIL
 else:
+    # Local testing only: emails appear in the terminal
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    DEFAULT_FROM_EMAIL = SENDGRID_FROM_EMAIL
 
-# Django’s default EMAIL_HOST is "localhost" — do not treat that as “configured”.
-SMTP_ENABLED = bool(os.environ.get("EMAIL_HOST", "").strip())
-
-# "From" address — must be allowed by your SMTP provider (often same as EMAIL_HOST_USER)
-DEFAULT_FROM_EMAIL = os.environ.get(
-    "DEFAULT_FROM_EMAIL",
-    f"website@{CONTACT_FORM_TO.split('@')[-1]}",
-)
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
+SMTP_ENABLED = bool(SENDGRID_API_KEY)
